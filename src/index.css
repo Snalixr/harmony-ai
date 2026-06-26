@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   Harmony AI — Design System
+   Single source of truth for all design tokens.
+   Uses Tailwind CSS v4 @theme directive.
+   ============================================================ */
+
+@theme {
+  /* ---- Typography ---- */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", ui-serif, Georgia, serif;
+
+  /* ---- Light palette (default) ---- */
+  --color-bg: #FDFCF9;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F5F5F0;
+  --color-surface-elevated: #FAFAF8;
+  --color-primary: #3B4D43;
+  --color-primary-hover: #2F3E36;
+  --color-primary-light: #F2F4F0;
+  --color-primary-muted: #596A5F;
+  --color-text: #2C362F;
+  --color-text-secondary: #68736B;
+  --color-text-muted: #8B938D;
+  --color-border: #EBEAE2;
+  --color-border-light: #F4F3ED;
+  --color-input-bg: #F9F9F7;
+  --color-danger-bg: #FEF2F2;
+  --color-danger-text: #DC2626;
+  --color-danger-border: #FEE2E2;
+  /* Premium accent — muted honey/clay (replaces sharp amber #F59E0B).
+     Harmonizes with the forest-green primary and the warm neutrals
+     already used on the landing page. Low saturation = calm, not jarring. */
+  --color-premium: #B0895E;
+  --color-premium-bg: #F5EEE3;
+
+  /* ---- Dark palette (applied via .dark on html) ---- */
+  --color-dark-bg: #1A1D1B;
+  --color-dark-surface: #232725;
+  --color-dark-surface-alt: #2A2E2C;
+  --color-dark-surface-elevated: #313634;
+  --color-dark-primary: #6B8A78;
+  --color-dark-primary-hover: #5A7A68;
+  --color-dark-primary-light: #2A3630;
+  --color-dark-primary-muted: #8BA898;
+  --color-dark-text: #E8E6E1;
+  --color-dark-text-secondary: #A8A59E;
+  --color-dark-text-muted: #706E68;
+  --color-dark-border: #383C3A;
+  --color-dark-border-light: #2E322F;
+  --color-dark-input-bg: #2A2E2C;
+  --color-dark-danger-bg: #3B1A1A;
+  --color-dark-danger-text: #FCA5A5;
+  --color-dark-danger-border: #4A2020;
+  /* Dark premium — slightly lifted honey so it stays readable on dark surfaces. */
+  --color-dark-premium: #C9A77A;
+  --color-dark-premium-bg: #33291D;
+
+  /* ---- Spacing / Radius tokens ---- */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 10px 25px rgba(59, 77, 67, 0.08);
+  --shadow-elevated: 0 25px 50px rgba(0, 0, 0, 0.1);
+  --shadow-primary: 0 10px 30px rgba(59, 77, 67, 0.2);
+
+  /* ---- Animations ---- */
+  --animate-shimmer: shimmer 2.5s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-pulse-soft: pulse-soft 3s ease-in-out infinite;
+  /* Aurora — slow, meditative drift for the chat backdrop. Long durations
+     (30–45s) keep motion peripheral and never distracting. */
+  --animate-aurora-1: aurora-drift-1 32s ease-in-out infinite;
+  --animate-aurora-2: aurora-drift-2 44s ease-in-out infinite;
+  --animate-aurora-3: aurora-drift-3 38s ease-in-out infinite;
+
+  @keyframes shimmer {
+    0% { transform: translateX(-200%); }
+    100% { transform: translateX(200%); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; };
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  /* Aurora layers — each breathes (scale) and wanders (translate) on its own
+     cycle so the field never reads as a mechanical loop. */
+  @keyframes aurora-drift-1 {
+    0%   { transform: translate3d(-6%, -4%, 0) scale(1);    opacity: 0.55; }
+    50%  { transform: translate3d(6%, 2%, 0) scale(1.15);   opacity: 0.85; }
+    100% { transform: translate3d(-6%, -4%, 0) scale(1);    opacity: 0.55; }
+  }
+  @keyframes aurora-drift-2 {
+    0%   { transform: translate3d(5%, 3%, 0) scale(1.1);    opacity: 0.45; }
+    50%  { transform: translate3d(-5%, -3%, 0) scale(0.95); opacity: 0.7; }
+    100% { transform: translate3d(5%, 3%, 0) scale(1.1);    opacity: 0.45; }
+  }
+  @keyframes aurora-drift-3 {
+    0%   { transform: translate3d(0%, 0%, 0) scale(0.95);   opacity: 0.35; }
+    50%  { transform: translate3d(4%, -5%, 0) scale(1.1);   opacity: 0.6; }
+    100% { transform: translate3d(0%, 0%, 0) scale(0.95);   opacity: 0.35; }
+  }
+}
+
+/* ============================================================
+   Dark mode — override CSS custom properties via .dark class
+   ============================================================ */
+.dark {
+  --color-bg: var(--color-dark-bg);
+  --color-surface: var(--color-dark-surface);
+  --color-surface-alt: var(--color-dark-surface-alt);
+  --color-surface-elevated: var(--color-dark-surface-elevated);
+  --color-primary: var(--color-dark-primary);
+  --color-primary-hover: var(--color-dark-primary-hover);
+  --color-primary-light: var(--color-dark-primary-light);
+  --color-primary-muted: var(--color-dark-primary-muted);
+  --color-text: var(--color-dark-text);
+  --color-text-secondary: var(--color-dark-text-secondary);
+  --color-text-muted: var(--color-dark-text-muted);
+  --color-border: var(--color-dark-border);
+  --color-border-light: var(--color-dark-border-light);
+  --color-input-bg: var(--color-dark-input-bg);
+  --color-danger-bg: var(--color-dark-danger-bg);
+  --color-danger-text: var(--color-dark-danger-text);
+  --color-danger-border: var(--color-dark-danger-border);
+  --color-premium: var(--color-dark-premium);
+  --color-premium-bg: var(--color-dark-premium-bg);
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 25px 50px rgba(0, 0, 0, 0.4);
+  --shadow-primary: 0 10px 30px rgba(107, 138, 120, 0.2);
+}
+
+/* ============================================================
+   Aurora backdrop — calm drifting wash for the chat surface.
+   Sits behind content (z-0), never intercepts pointer events.
+   ============================================================ */
+.aurora-root {
+  /* multiply on light = soft staining; screen on dark = gentle glow */
+  --aurora-blend: multiply;
+}
+.dark .aurora-root {
+  --aurora-blend: screen;
+}
+.aurora-layer {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  mix-blend-mode: var(--aurora-blend);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Base styles
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Utility classes
+   ============================================================ */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Skeleton loading animation */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.animate-skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* Reduced motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  /* Aurora becomes a static, near-invisible wash — no movement at all. */
+  .aurora-layer { animation: none !important; opacity: 0.25 !important; }
+}
