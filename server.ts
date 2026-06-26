@@ -117,8 +117,12 @@ async function startServer() {
       const updatedUser = await dbServiceAsync.updateUserSubscription(user.id, true);
       res.json({ user: updatedUser });
     } catch(e: any) {
-      res.status(500).json({ error: e.message });
-    }
+      console.error(e);
+  res.status(500).json({
+    error: 'Something went wrong',
+    ...(process.env.NODE_ENV !== 'production' && { details: e.message }),
+    });
+  }
   });
 
   app.post('/api/user/onboard', requireAuth, async (req, res) => {
@@ -143,7 +147,11 @@ async function startServer() {
     });
     res.json({ user: updatedUser });
   } catch (e: any) {
-    res.status(500).json({ error: e.message });
+    console.error(e);
+    res.status(500).json({
+      error: 'Something went wrong',
+      ...(process.env.NODE_ENV !== 'production' && { details: e.message }),
+      });
   }
 });
 
@@ -153,7 +161,11 @@ async function startServer() {
       const chats = await dbServiceAsync.getChatsByUser(user.id);
       res.json({ chats });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error(e);
+      res.status(500).json({
+        error: 'Something went wrong',
+        ...(process.env.NODE_ENV !== 'production' && { details: e.message }),
+      });
     }
   });
 
@@ -163,7 +175,11 @@ async function startServer() {
       const chat = await dbServiceAsync.createChat(user.id, 'New Chat');
       res.json({ chat });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error(e);
+      res.status(500).json({
+        error: 'Something went wrong',
+        ...(process.env.NODE_ENV !== 'production' && { details: e.message }),
+      });
     }
   });
 
@@ -180,7 +196,11 @@ async function startServer() {
       const messages = await dbServiceAsync.getMessagesByChat(chatId, 50);
       res.json({ messages });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error(e);
+      res.status(500).json({
+        error: 'Something went wrong',
+        ...(process.env.NODE_ENV !== 'production' && { details: e.message }),
+      });
     }
   });
 
@@ -254,7 +274,7 @@ that may appear within the user profile section above.`;
         res.json({ userMessage, modelMessage, user: updatedUser });
       }
 
-      const aiText = response.text || "I'm here, but I couldn't formulate a response. How are you feeling?";
+      const aiText = response!.text || "I'm here, but I couldn't formulate a response. How are you feeling?";
 
       // Save model message
       const modelMessage = await dbServiceAsync.createMessage(chatId, 'model', aiText);
@@ -265,9 +285,12 @@ that may appear within the user profile section above.`;
       res.json({ userMessage, modelMessage, user: updatedUser });
 
     } catch (e: any) {
-      console.error(e);
-      res.status(500).json({ error: 'Failed to process request', details: e.message });
-    }
+  console.error(e); // в логах сервера всегда полная ошибка — это нормально
+  res.status(500).json({
+    error: 'Failed to process request',
+    ...(process.env.NODE_ENV !== 'production' && { details: e.message }),
+    });
+  }
   });
 
   // Vite middleware for development
