@@ -114,6 +114,18 @@ export const dbServiceAsync = {
     }
   },
 
+  decrementFreeMessagesAtomic: async (userId: string): Promise<number | null> => {
+    const { data, error } = await supabaseAdmin
+      .rpc('decrement_free_message', { user_id: userId });
+
+    if (error) throw new Error(error.message);
+
+    if (!data || data.length === 0) return null;
+
+    return data[0].free_messages_left;
+  },
+
+
   createChat: async (userId: string, title: string): Promise<Chat> => {
     const { data } = await supabaseAdmin.from('chats').insert({
       user_id: userId,
